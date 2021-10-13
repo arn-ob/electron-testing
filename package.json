@@ -1,0 +1,107 @@
+{
+  "name": "Thrivedesk",
+  "version": "1.1.42",
+  "description": "ThriveDesk Desktop App",
+  "main": "src/index.js",
+  "author": "TD-Team <help@thrivedesk.com>",
+  "license": "MIT",
+  "release": "electron-builder",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "remove-build": "sudo rm -R out && sudo rm -R release-builds",
+    "package-mac": "electron-packager ./ --overwrite --platform=darwin --arch=x64 --prune=true --out=out",
+    "package-win-32": "electron-packager ./ Thrivedesk --overwrite --platform=win32 --arch=ia32 --prune=true --out=out --version-string.ProductName=\"Thrivedesk\"",
+    "package-win-64": "electron-packager ./ Thrivedesk --overwrite --platform=win32 --arch=x64 --prune=true --out=out --version-string.ProductName=\"Thrivedesk\"",
+    "package-linux": "electron-packager ./ Thrivedesk --overwrite --platform=linux --arch=x64 --prune=true --out=out --version-string.ProductName=\"Thrivedesk\"",
+    "package-mac-dmg": "electron-installer-dmg ./release-builds/Thrivedesk-darwin-x64  Thrivedesk.app Thrivedesk",
+    "publish": "electron-forge publish",
+    "setup": "electron-installer-windows --src release-builds/Thrivedesk-win32-x64 --dest out/installers/"
+  },
+  "build":{
+    "linux": { 
+      "target": ["AppImage", "deb"], 
+      "icon": "build/icons/256x256.png",
+      "publish": [
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ]
+    },
+    "win": { 
+      "target": "nsis", 
+      "icon": "build/icon.ico",
+      "publish": [
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ]
+    },
+    "mac": { 
+      "target": "dmg", 
+      "icon": "build/icon.png",
+      "category": "public.thrivedesk.app",
+      "publish": [
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
+    "electron": "^14.0.1",
+    "electron-builder": "^22.13.1",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-installer-windows": "^3.0.0",
+    "electron-packager": "^15.4.0",
+    "electron-wix-msi": "^3.2.0"
+  },
+  "dependencies": {
+    "@electron-forge/maker-wix": "^6.0.0-beta.61",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "electronPackagerConfig": {
+        "packageManager": "yarn",
+        "icon": "src/img/favicon.png"
+      },
+      "electronWinstallerConfig": {
+        "name": "Thrivedesk"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "Thrivedesk",
+        "name": "Thrivedesk"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Thrivedesk"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
